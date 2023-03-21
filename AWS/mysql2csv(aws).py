@@ -51,18 +51,19 @@ def setup():
     if not os.path.exists('export'):
         os.makedirs('export')
     
-    #f = open("locations.txt", "r")
-    ## TODO: FINISH LOCATION SELECTOR
-    
-    '''
-    with open('locations.txt') as f:
-        for i, line in enumerate(f, 1):
-            print ("{0}: {1}".format(i+1,line))
-    
-    location = f.readline(int(input("Index of location: "))+1)
+
+    f = open("locations", "r")
+    lines = f.readlines()
+    for (i, item) in enumerate(lines, 1):
+        print(i, item)
+    try:
+        location = lines[int(input("Index of location: "))-1]
+    except IndexError:
+        print("Index out of range, defaulting to NN-NN-AR")
+        location = "NN-NN-AR"
+
     print("Location selected: " + location)
-    '''
-    location = "PIL-CBA-AR"
+    
     host = input("Host (localhost): " or "localhost" )
     database = input("MySQL DB name (mtrackreport): " or "mtrackreport")
     user = input("DB user: " or "root")
