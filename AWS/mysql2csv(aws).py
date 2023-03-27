@@ -52,7 +52,7 @@ def setup():
         os.makedirs('export')
     
 
-    f = open("locations", "r")
+    f = open(os.getcwd() + '/locations', "r")
     lines = f.readlines()
     for (i, item) in enumerate(lines, 1):
         print(i, item)
@@ -122,7 +122,7 @@ def toCSV(year, month, df):
         return
     else:
         print("Saving " + "{:02d}".format(month) + "-" + str(year))
-        df.to_csv("export/" + str(year) + "/" + str(year) + "{:02d}".format(month) + "-AR-CBA-PILAR.csv", index=False)
+        df.to_csv("export/" + str(year) + "/" + str(year) + "{:02d}".format(month) + "-" + location + ".csv", index=False)
     return
 
 setup()
@@ -140,6 +140,7 @@ for year in range(fromYear, toYear): #iteration over dates/month
     checkDirectory(year)
     for month in range(1,13):
         toCSV(year, month, collect(year, month))
+
 
 
 mydb.close()

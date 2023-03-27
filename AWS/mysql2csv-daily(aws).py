@@ -9,6 +9,13 @@ from datetime import timedelta
 import pandas as pd
 import mysql.connector as connection
 
+#Global vars
+yesterday = datetime.date.today() - datetime.timedelta(days=1)
+location = ""
+database = ""
+user = ""
+host = "" #172.17.0.2
+passwd = ""
 
 def setup():
     """ Initialize the script, asking for DB credentials, checking for basic "export" folder and selecting proper
@@ -19,13 +26,25 @@ def setup():
 
     f = open("locations", "r")
     lines = f.readlines()
-    for (i, item) in enumerate(lines, 1):
-        print(i, item)
+    #-----------------------------------
+    # Change hard coded index by station
+    #1 PIL-CBA-AR
+    #2 TCM-T-AR
+    #3 VM-BA-AR
+    #4 AEP-BA-AR
+    #5 NEU-N-AR
+    #6 BRC-RN-AR
+    #7 TRW-CHT-AR
+    #8 CR-CHT-AR
+    #9 RG-SC-AR
+    #-----------------------------------
+    index = 1
     try:
-        location = lines[int(input("Index of location: "))-1]
+        location = lines[index-1]
     except IndexError:
         print("Index out of range, defaulting to NN-NN-AR")
         location = "NN-NN-AR"
+
 
     print("Location selected: " + location)
     
@@ -47,27 +66,21 @@ def checkDirectory(year):
     if not os.path.exists('./export/' + str(year)):
         os.makedirs('./export/' + str(year))
 
-def collect(year, month):
-    """ Collects data from MySQL server, within specified date
-
-        Parameters
-        ----------
-        year : int
-        month : int
-            date of data to be retrieved
+def collectPriorDay():
+    """ Creates a query and collects data from yesterday
 
         Returns
         -------
         df : pandas dataframe
             results from query
     """
-    query = "SELECT * FROM historial WHERE timestamp BETWEEN '" + str(year) + "-" + str(month) + "-01 00:00:00' AND '" + lastDate(year, month) + " 23:59:00';"
+    query = "SELECT * FROM historial WHERE timestamp '" + str(yesterday) + "';"
     print(query)
     df = pd.read_sql(query, mydb) 
     return df
 
 
-def toCSV(year, month, df):
+def toCSV(df):
     """ Exports pandas df into a .csv file. This function also checks if the df param is empty
 
         Parameters
@@ -79,14 +92,17 @@ def toCSV(year, month, df):
             data to be exported to csv
         
     """
+    year = yesterday.year()
+    month = yesterday.month()
+
+
     if df.empty:
-        print("Database has no data on " + str(month) + "-" + str(year) + " omiting...")
+        print("Database has no data on " + str(yesterday) + " omiting...")
         return
     else:
         print("Saving " + "{:02d}".format(month) + "-" + str(year))
-        df.to_csv("export/" + str(year) + "/" + str(year) + "{:02d}".format(month) + "-AR-CBA-PILAR.csv", index=False)
+        df.to_csv("export/" + str(year) + "/" + str(year) + "{:02d}".format(month) + "-" + location + ".csv", index=False, mode='a')
     return
 
-
-yesterday = (datetime.date.today() + timedelta(days=-1)).strftime("%Y-%m-%d")
-print(yesterday)
+setup()
+checkDirectory(yesterday.year)
