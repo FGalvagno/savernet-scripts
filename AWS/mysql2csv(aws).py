@@ -69,7 +69,7 @@ def setup():
     user = input("DB user: " or "root")
     passwd = input("Password (leave blank for none): ")
     fromYear = int(input("From year (2017): ") or "2017") 
-    toYear = int(input("To year (2023): ") or "2023")+ 1
+    toYear = int(input("To year (2023): ") or "2023")
 
     
     
@@ -85,6 +85,7 @@ def checkDirectory(year):
     """
     if not os.path.exists('./export/' + str(year)):
         os.makedirs('./export/' + str(year))
+        print("Directory " + str(year) + " created." )
 
 def collect(year, month):
     """ Collects data from MySQL server, within specified date
