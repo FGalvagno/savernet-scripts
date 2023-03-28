@@ -17,6 +17,16 @@ user = ""
 host = "" #172.17.0.2
 passwd = ""
 
+#DB config
+config = {
+  'user': 'root',
+  'password': 'secret',
+  'host': '0.0.0.0',
+  'database': 'mtrackreport',
+  'raise_on_warnings': True
+}
+
+
 def setup():
     """ Initialize the script, asking for DB credentials, checking for basic "export" folder and selecting proper
         location of AWS
@@ -48,10 +58,6 @@ def setup():
 
     print("Location selected: " + location)
     
-    host = input("Host (localhost): " or "localhost" )
-    database = input("MySQL DB name (mtrackreport): " or "mtrackreport")
-    user = input("DB user: " or "root")
-    passwd = input("Password (leave blank for none): ")
 
 
 def checkDirectory(year):
@@ -74,7 +80,8 @@ def collectPriorDay():
         df : pandas dataframe
             results from query
     """
-    query = "SELECT * FROM historial WHERE timestamp '" + str(yesterday) + "';"
+    #query = "SELECT * FROM historial WHERE timestamp BETWEEN '" + str(yesterday) + " 00:00:00' AND '" + str(yesterday) +  " 23:59:59' ;"
+    query = "SELECT * FROM historial WHERE timestamp BETWEEN '" + "2021-09-25" + " 00:00:00' AND '" + "2021-09-25" +  " 23:59:59' ;"
     print(query)
     df = pd.read_sql(query, mydb) 
     return df
@@ -92,8 +99,8 @@ def toCSV(df):
             data to be exported to csv
         
     """
-    year = yesterday.year()
-    month = yesterday.month()
+    year = yesterday.year
+    month = yesterday.month
 
 
     if df.empty:
@@ -105,4 +112,17 @@ def toCSV(df):
     return
 
 setup()
+
+try: 
+    mydb = connection.connect(**config) #connecting to DB
+except Exception as e:
+    print("Connection failed")
+    print(e)
+
+
 checkDirectory(yesterday.year)
+df = collectPriorDay()
+print (df)
+toCSV(df)
+
+mydb.close()
