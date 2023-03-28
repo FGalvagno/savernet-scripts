@@ -9,17 +9,21 @@ from datetime import timedelta
 import pandas as pd
 import mysql.connector as connection
 
-
 warnings.filterwarnings('ignore')
 
 #Global vars
 location = ""
-fromYear = 2016
-toYear = 2016 
-database = ""
-user = ""
-host = "" #172.17.0.2
-passwd = ""
+fromYear = 2017
+toYear = 2023 
+
+#DB config
+config = {
+  'user': 'root',
+  'password': 'secret',
+  'host': '127.0.0.1',
+  'database': 'mtrackreport',
+  'raise_on_warnings': True
+}
 
 def lastDate(year, month):
     """ Calculates the last day of a month in Y-m-d format
@@ -47,6 +51,7 @@ def lastDate(year, month):
 def setup():
     """ Initialize the script, asking for DB credentials, checking for basic "export" folder and selecting proper
         location of AWS
+
     """
     if not os.path.exists('export'):
         os.makedirs('export')
@@ -64,12 +69,9 @@ def setup():
 
     print("Location selected: " + location)
     
-    host = input("Host (localhost): " or "localhost" )
-    database = input("MySQL DB name (mtrackreport): " or "mtrackreport")
-    user = input("DB user: " or "root")
-    passwd = input("Password (leave blank for none): ")
     fromYear = int(input("From year (2017): ") or "2017") 
     toYear = int(input("To year (2023): ") or "2023")
+    
 
     
     
@@ -82,6 +84,7 @@ def checkDirectory(year):
         ----------
         year : int
             name of the folder to store data
+
     """
     if not os.path.exists('./export/' + str(year)):
         os.makedirs('./export/' + str(year))
@@ -100,6 +103,7 @@ def collect(year, month):
         -------
         df : pandas dataframe
             results from query
+
     """
     query = "SELECT * FROM historial WHERE timestamp BETWEEN '" + str(year) + "-" + str(month) + "-01 00:00:00' AND '" + lastDate(year, month) + " 23:59:00';"
     print(query)
@@ -131,7 +135,7 @@ setup()
 print("Connecting")
 
 try: 
-    mydb = connection.connect(host, database, user, passwd) #connecting to DB
+    mydb = connection.connect(**config) #connecting to DB
 except Exception as e:
     print("Connection failed")
     print(e)

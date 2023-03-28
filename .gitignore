@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+#.csv
+.csv
+
 # Export Folder
 SAVERNET-Scripts/AWS/export/*

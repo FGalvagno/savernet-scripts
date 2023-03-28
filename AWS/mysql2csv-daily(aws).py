@@ -12,23 +12,20 @@ import mysql.connector as connection
 #Global vars
 yesterday = datetime.date.today() - datetime.timedelta(days=1)
 location = ""
-database = ""
-user = ""
-host = "" #172.17.0.2
-passwd = ""
+
 
 #DB config
 config = {
   'user': 'root',
   'password': 'secret',
-  'host': '0.0.0.0',
+  'host': '127.0.0.1',
   'database': 'mtrackreport',
   'raise_on_warnings': True
 }
 
 
 def setup():
-    """ Initialize the script, asking for DB credentials, checking for basic "export" folder and selecting proper
+    """ Initialize the script, checking for basic "export" folder and selecting proper
         location of AWS
     """
     if not os.path.exists('export'):
@@ -37,7 +34,7 @@ def setup():
     f = open("locations", "r")
     lines = f.readlines()
     #-----------------------------------
-    # Change hard coded index by station
+    # Change index by station
     #1 PIL-CBA-AR
     #2 TCM-T-AR
     #3 VM-BA-AR
@@ -68,6 +65,7 @@ def checkDirectory(year):
         ----------
         year : int
             name of the folder to store data
+
     """
     if not os.path.exists('./export/' + str(year)):
         os.makedirs('./export/' + str(year))
@@ -79,22 +77,20 @@ def collectPriorDay():
         -------
         df : pandas dataframe
             results from query
+
     """
-    #query = "SELECT * FROM historial WHERE timestamp BETWEEN '" + str(yesterday) + " 00:00:00' AND '" + str(yesterday) +  " 23:59:59' ;"
-    query = "SELECT * FROM historial WHERE timestamp BETWEEN '" + "2021-09-25" + " 00:00:00' AND '" + "2021-09-25" +  " 23:59:59' ;"
+    query = "SELECT * FROM historial WHERE timestamp BETWEEN '" + str(yesterday) + " 00:00:00' AND '" + str(yesterday) +  " 23:59:59' ;"
+
     print(query)
     df = pd.read_sql(query, mydb) 
     return df
 
 
 def toCSV(df):
-    """ Exports pandas df into a .csv file. This function also checks if the df param is empty
+    """ Exports pandas df into a .csv file (append mode). This function also checks if the df param is empty
 
         Parameters
         ----------
-        year : int
-        month : int
-            date of data
         df : pandas dataframe
             data to be exported to csv
         
@@ -122,7 +118,7 @@ except Exception as e:
 
 checkDirectory(yesterday.year)
 df = collectPriorDay()
-print (df)
+print(df)
 toCSV(df)
 
 mydb.close()
