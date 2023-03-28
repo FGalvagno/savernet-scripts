@@ -12,7 +12,6 @@ import mysql.connector as connection
 warnings.filterwarnings('ignore')
 
 #Global vars
-location = ""
 fromYear = 2017
 toYear = 2023 
 
@@ -24,6 +23,7 @@ config = {
   'database': 'mtrackreport',
   'raise_on_warnings': True
 }
+
 
 def lastDate(year, month):
     """ Calculates the last day of a month in Y-m-d format
@@ -48,10 +48,15 @@ def lastDate(year, month):
     
     return last_date.strftime("%Y-%m-%d")
 
+
 def setup():
-    """ Initialize the script, asking for DB credentials, checking for basic "export" folder and selecting proper
+    """ Initialize the script checking for basic "export" folder and selecting proper
         location of AWS
 
+        Returns
+        -------
+        location : string
+            string that represents the location of station
     """
     if not os.path.exists('export'):
         os.makedirs('export')
@@ -71,10 +76,8 @@ def setup():
     
     fromYear = int(input("From year (2017): ") or "2017") 
     toYear = int(input("To year (2023): ") or "2023")
-    
-
-    
-    
+    return  location
+  
 
 def checkDirectory(year):
     """ Checks for year folder in ./export.
@@ -110,7 +113,7 @@ def collect(year, month):
     df = pd.read_sql(query, mydb) 
     return df
 
-def toCSV(year, month, df):
+def toCSV(year, month, df, location):
     """ Exports pandas df into a .csv file. This function also checks if the df param is empty
 
         Parameters
@@ -130,7 +133,8 @@ def toCSV(year, month, df):
         df.to_csv("export/" + str(year) + "/" + str(year) + "{:02d}".format(month) + "-" + location + ".csv", index=False)
     return
 
-setup()
+
+location = setup()
 
 print("Connecting")
 
@@ -144,8 +148,7 @@ except Exception as e:
 for year in range(fromYear, toYear): #iteration over dates/month
     checkDirectory(year)
     for month in range(1,13):
-        toCSV(year, month, collect(year, month))
-
+        toCSV(year, month, collect(year, month), location)
 
 
 mydb.close()
