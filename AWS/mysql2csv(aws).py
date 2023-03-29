@@ -76,7 +76,7 @@ def setup():
     
     fromYear = int(input("From year (2017): ") or "2017") 
     toYear = int(input("To year (2023): ") or "2023")
-    return  location
+    return  location.strip('\n')
   
 
 def checkDirectory(year):
