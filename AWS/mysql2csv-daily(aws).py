@@ -5,6 +5,7 @@ import os
 import warnings
 import datetime
 from datetime import timedelta
+import time
 #Third-party modules
 import pandas as pd
 import mysql.connector as connection
@@ -122,3 +123,8 @@ print(df)
 toCSV(df)
 
 mydb.close()
+
+print("Exporting finished.")
+time.sleep(5)
+
+quit()
