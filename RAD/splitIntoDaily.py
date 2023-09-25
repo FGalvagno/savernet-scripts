@@ -34,13 +34,14 @@ def split(location):
     """ Reads *.dat file. Output from Campbell datalogger
         Output: file splited by dates.
     """
+    #TODO: save header
     hd = pd.read_csv("COR_PIRA-UVA-UVB.dat")
 
     df = pd.read_csv("COR_PIRA-UVA-UVB.dat", skiprows=[1, 3, 4])
 
     df.columns = df.iloc[0]
     df = df[1:]
-
+    #TODO: drop NaN columns
 
     df['TS'] = pd.to_datetime(df['TS'])
 
