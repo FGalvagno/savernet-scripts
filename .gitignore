@@ -136,6 +136,7 @@ dmypy.json
 
 # Export Folder
 savernet-scripts/AWS/export/*
+savernet-scripts/RAD/export/*
 
 # Samples Folder
 savernet-scripts/TOPAS/Series/*
