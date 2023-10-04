@@ -129,14 +129,15 @@ dmypy.json
 .pyre/
 
 #.csv
-.csv
+*.csv
 
 #.dat
-.dat
+*.dat
 
 # Export Folder
 savernet-scripts/AWS/export/*
 savernet-scripts/RAD/export/*
+
 
 # Samples Folder
 savernet-scripts/TOPAS/Series/*
