@@ -58,9 +58,13 @@ def split(location):
     f.close()
     
     # write data
-    data = df[(df['TS'].dt.date >= yesterday & (df['TS'].dt.date <= date.today()))]
-    data.to_csv(f"export/{location+'-'+yesterday.strftime('%Y-%m-%d')}.csv", index=False, mode= 'a', header=False)
-
+    try:
+        data = df[(df['TS'].dt.date >= yesterday & (df['TS'].dt.date <= date.today()))]
+        data.to_csv(f"export/{location+'-'+yesterday.strftime('%Y-%m-%d')}.csv", index=False, mode= 'a', header=False)
+    except Exception as e:
+        print(e)
+        quit()
+        
 location = setup()
 split(location)
 quit()
