@@ -137,6 +137,7 @@ dmypy.json
 # Export Folder
 savernet-scripts/AWS/export/*
 savernet-scripts/RAD/export/*
+savernet-scripts/TOPAS/px2csv/export/*
 
 
 # Samples Folder
