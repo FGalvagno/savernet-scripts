@@ -43,7 +43,7 @@ def setup():
         os.makedirs('export')
     
 
-    f = open(os.getcwd() + '/locations', "r")
+    f = open(os.getcwd() + '/pxtocsv/locations', "r")
     lines = f.readlines()
     for (i, item) in enumerate(lines, 1):
         print(str(i) + '-', item, end="")
@@ -101,13 +101,13 @@ def sort_data(location,df):
     df['Total Particles'] = df['Total Particles'].apply(lambda x: str(x).replace(',','.'))
     df['PM10 particles'] = df['PM10 particles'].apply(lambda x: str(x).replace(',','.'))
     df['PM2.5 particles'] = df['PM2.5 particles'].apply(lambda x: str(x).replace(',','.'))
-    df['PM1 particles'] = df['PM1 particles'].apply(lambda x: str().replace(',','.'))
+    df['PM1 particles'] = df['PM1 particles'].apply(lambda x: str(x).replace(',','.'))
 
     
     df = df.sort_values(by="TimeStamp")
-
+    print(df)
     #Not needed for now.
-    #df.to_csv('samples_sorted.csv', index=False) 
+    df.to_csv('samples_sorted.csv', index=False) 
 
     df['TimeStamp'] = pd.to_datetime(df['TimeStamp'])
 
@@ -124,7 +124,7 @@ def readCSV(location):
     """
     df = pd.read_csv(location + '-TOPAS' + '.csv', names=["TimeStamp", "Total Particles", "PM10 particles", "PM2.5 particles", "PM1 particles"])
     df = df.drop_duplicates()
-
+    print(df)
     return df
 
 location = setup()
