@@ -134,11 +134,10 @@ dmypy.json
 #.dat
 *.dat
 
-# Export Folder
-savernet-scripts/AWS/export/*
-savernet-scripts/RAD/export/*
-savernet-scripts/TOPAS/px2csv/export/*
+# 
 
+# Export Folder
+savernet-scripts/export/*
 
 # Samples Folder
 savernet-scripts/TOPAS/Series/
