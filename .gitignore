@@ -140,4 +140,6 @@ dmypy.json
 savernet-scripts/export/*
 
 # Samples Folder
-savernet-scripts/TOPAS/Series/
+savernet-scripts/TOPAS/Sample
+savernet-scripts/TOPAS/Series
+
