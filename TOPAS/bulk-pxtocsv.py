@@ -24,9 +24,9 @@ def split_by_month(df, location):
         for month in range(1,13,1):
             data = df[(df['TimeStamp'].dt.year == year) & (df['TimeStamp'].dt.month == month)]
             if(df.empty != True):
-                if not os.path.exists('export/' + str(year)):  
-                    os.mkdir('export/' + str(year))  
-                data.to_csv(f"export/{str(year)+'/'+location+'-'+str(year)+'-'+str(month)}.csv", index=False, mode= 'a', header=True)
+                if not os.path.exists('export/TOPAS/' + str(year)):  
+                    os.mkdir('export/TOPAS/' + str(year))  
+                data.to_csv(f"export/TOPAS/{str(year)+'/'+location+'-'+str(year)+'-'+str(month)}.csv", index=False, mode= 'a', header=True)
 
 
 def setup():
@@ -42,6 +42,8 @@ def setup():
     if not os.path.exists('export'):
         os.makedirs('export')
     
+    if not os.path.exists('export/TOPAS'):
+        os.makedirs('export/TOPAS')
 
     f = open(os.getcwd() + '/locations', "r")
     lines = f.readlines()
@@ -73,7 +75,7 @@ def readPX(location):
     print("Reading Series folder... ", end = "")
     samples = glob.glob('./Series/*.DB')
 
-    file = open(location + '-TOPAS' + '.csv', 'w')
+    file = open('./export/TOPAS/'+ location + '-TOPAS' + '.csv', 'w')
 
     writer = csv.writer(file)
 
@@ -108,9 +110,7 @@ def sort_data(location,df):
     
     df = df.sort_values(by="TimeStamp")
     print(df)
-    #Not needed for now.
-    df.to_csv('samples_sorted.csv', index=False) 
-
+ 
     df['TimeStamp'] = pd.to_datetime(df['TimeStamp'])
 
     split_by_month(df,location)
@@ -124,7 +124,7 @@ def readCSV(location):
         df : pandas dataframe
             dataframe with CSV data
     """
-    df = pd.read_csv(location + '-TOPAS' + '.csv', names=["TimeStamp", "Total Particles", "PM10 particles", "PM2.5 particles", "PM1 particles", "File Name"])
+    df = pd.read_csv('/export/TOPAS/' + location + '-TOPAS' + '.csv', names=["TimeStamp", "Total Particles", "PM10 particles", "PM2.5 particles", "PM1 particles", "File Name"])
     df = df.drop_duplicates()
     print(df)
     return df
