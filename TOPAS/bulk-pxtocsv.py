@@ -117,7 +117,8 @@ def sort_data(location,df):
     print("Done")
 
 def readCSV(location):
-    """ Read raw exported CSV, drop the duplicates and add header
+    """ Read raw exported CSV, drop the duplicates and add header.
+        Also replaces comma decimal separator.
 
         Returns
         -------
@@ -127,6 +128,18 @@ def readCSV(location):
     df = pd.read_csv('export/TOPAS/' + location + '-TOPAS' + '.csv', names=["TimeStamp", "Total Particles", "PM10 particles", "PM2.5 particles", "PM1 particles", "File Name"])
     df = df.drop_duplicates()
     df = df[~(df['File Name'] == 'DB')]
+    
+    print(df.dtypes)
+    num_columns=["Total Particles", "PM10 particles", "PM2.5 particles", "PM1 particles"]
+    df[num_columns] = df[num_columns].replace({',':'.'}, regex=True)
+
+    df[num_columns] = df[num_columns].apply(pd.to_numeric)
+  
+    df = df.drop(df[(df['Total Particles'] == 0) & 
+               (df['PM10 particles'] == 0) &
+               (df['PM2.5 particles'] == 0) &
+               (df['PM1 particles'] == 0)].index)
+    
     print(df)
     return df
 
