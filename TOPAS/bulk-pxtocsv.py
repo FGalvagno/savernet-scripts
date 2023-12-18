@@ -75,7 +75,7 @@ def readPX(location):
     print("Reading Series folder... ", end = "")
     samples = glob.glob('./Series/*.DB')
 
-    file = open('./export/TOPAS/'+ location + '-TOPAS' + '.csv', 'w')
+    file = open('export/TOPAS/'+ location + '-TOPAS' + '.csv', 'w')
 
     writer = csv.writer(file)
 
@@ -124,7 +124,7 @@ def readCSV(location):
         df : pandas dataframe
             dataframe with CSV data
     """
-    df = pd.read_csv('/export/TOPAS/' + location + '-TOPAS' + '.csv', names=["TimeStamp", "Total Particles", "PM10 particles", "PM2.5 particles", "PM1 particles", "File Name"])
+    df = pd.read_csv('export/TOPAS/' + location + '-TOPAS' + '.csv', names=["TimeStamp", "Total Particles", "PM10 particles", "PM2.5 particles", "PM1 particles", "File Name"])
     df = df.drop_duplicates()
     print(df)
     return df
