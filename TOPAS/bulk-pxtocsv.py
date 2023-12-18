@@ -43,7 +43,7 @@ def setup():
         os.makedirs('export')
     
 
-    f = open(os.getcwd() + '/TOPAS/pxtocsv/locations', "r")
+    f = open(os.getcwd() + '/locations', "r")
     lines = f.readlines()
     for (i, item) in enumerate(lines, 1):
         print(str(i) + '-', item, end="")
@@ -80,9 +80,11 @@ def readPX(location):
     # read all .db files on samples folder and write content to samples.csv
     for name in samples:
         pxData = Table(name)
+        print(name)
         for row in pxData:
             data= [row['TimeStamp'].strftime("%m/%d/%Y, %H:%M:%S"), row['Total Particles'], row['PM10 particles'], row['PM2.5 particles'],row['PM1 particles']]
             if(data != ['01/01/1900, 00:00:00','####0.0','####0.0','###0.00','###0.00'] and data != ['12/31/1899, 00:00:00','ug/m^3','ug/m^3','ug/m^3','ug/m^3']):
+                data.append(name[18:24])
                 writer.writerow(data)
         pxData.close()  #closes the px .DB file
     file.close()    #closes the csv file
@@ -122,7 +124,7 @@ def readCSV(location):
         df : pandas dataframe
             dataframe with CSV data
     """
-    df = pd.read_csv(location + '-TOPAS' + '.csv', names=["TimeStamp", "Total Particles", "PM10 particles", "PM2.5 particles", "PM1 particles"])
+    df = pd.read_csv(location + '-TOPAS' + '.csv', names=["TimeStamp", "Total Particles", "PM10 particles", "PM2.5 particles", "PM1 particles", "File Name"])
     df = df.drop_duplicates()
     print(df)
     return df
