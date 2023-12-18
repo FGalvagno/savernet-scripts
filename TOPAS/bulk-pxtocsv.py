@@ -126,8 +126,7 @@ def readCSV(location):
     """
     df = pd.read_csv('export/TOPAS/' + location + '-TOPAS' + '.csv', names=["TimeStamp", "Total Particles", "PM10 particles", "PM2.5 particles", "PM1 particles", "File Name"])
     df = df.drop_duplicates()
-    df = df.drop(df[df['File Name'] == 'DB'].index, inplace = True)
-    
+    df = df[~(df['File Name'] == 'DB')]
     print(df)
     return df
 
