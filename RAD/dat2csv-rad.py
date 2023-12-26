@@ -73,7 +73,7 @@ def split(location, file):
         f = open(f"export/RAD/{i.strftime('%Y/%m/'+ location +'-%Y-%m-%d')}.csv", "w")
         f.writelines(head)
         f.close()
-        data = df[(df['TS'].dt.date >= i) & (df['TS'].dt.date <= i+timedelta(days=1))]
+        data = df[(df['TS'].dt.date >= i) & (df['TS'].dt.date < i+timedelta(days=1))]
         
 
         
