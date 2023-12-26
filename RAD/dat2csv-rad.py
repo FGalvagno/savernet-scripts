@@ -90,7 +90,7 @@ try:
 
 except IndexError:
     print("No file dropped, searching on root folder")
-    samples = glob.glob('./RAD/Series/*.dat')
+    samples = glob.glob('./RAD/Series/*.dat') + glob.glob('./RAD/Series/*.backup')
     for name in samples:
         print("Processing: " + name)
         split(location, name)
