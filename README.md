@@ -1,9 +1,32 @@
-# SAVERNET - SATREPS
-A collection of simple python scripts made for file processing on SAVERNET stations.
+# SAVERNET
+Este repositorio es una colección de scripts utilizados para procesar diferentes productos obtenidos directamente del instrumental relacionado a la red SAVERNET.
 
-# Usage
-Every script serves a diferent propose. Currently there are two main folders containing scripts for:
-- Lufft Automatic Weather Stations, coupled with either a Exemys datalogger or a Campbell CR series.
-- Turnkey TOPAS
-- Diferent radiation sensors, coupled with a Campbell CR.
+# Instalación
+Instalar los requerimientos usando
+
+```
+pip install -r requirements.txt
+```
+
+# Uso
+Los scripts están divididos según el instrumental que representan. Existen scripts de dos tipo:
+- bulk: usados para separar y procesar datos históricos (volumen alto de datos)
+- daily: diseñados para ser utilizados en conjunto con un cron o el programador de tareas de windows. Se usan para procesar datos del último dia (volumen bajo de datos)
+
+A su vez, existe una carpeta extra llamada bash que contiene otras utilidades.
+
+# Descripción 
+
+## RAD
+Procesan datos de radiación, obtenidos de un datalogger Campbell
+
+## TOPAS
+Procesan datos obtenidos en forma de bases de dato Paradox. Estos archivos son generados por el software AirQ32 utilizado en conjunto con el instrumento TOPAS de TurnKey Instruments
+
+## AWS
+Extraen datos del tiempo. Hay dos orígenes de datos:
+- En un servidor MYSQL como consulta
+- Datalogger Campbell CRxxxx, en un archivo en formato *.dat*
+
+
 
