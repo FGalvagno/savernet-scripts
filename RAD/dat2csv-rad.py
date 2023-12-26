@@ -61,7 +61,7 @@ def split(location, file):
     df = df.iloc[:,:-2]
 
     # split df into csv, add original header
-    df['TS'] = pd.to_datetime(df['TS'])
+    df['TS'] = pd.to_datetime(df['TS'], format='mixed')
 
     for i in set(df['TS'].dt.date):
          # check for folders
