@@ -4,6 +4,9 @@ from datetime import datetime, timedelta
 import os
 import sys
 import glob
+import warnings
+
+warnings.filterwarnings('ignore')
 
 DEFAULT_FILE = "PIRA-UVA-UVB.dat"
 
