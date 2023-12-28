@@ -10,7 +10,6 @@ warnings.filterwarnings('ignore')
 
 DEFAULT_FILE = "PIRA-UVA-UVB.dat"
 
-
 def setup():
     """ Initialize the script checking for basic "export" folder and selecting proper
         location of AWS

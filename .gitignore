@@ -149,3 +149,6 @@ savernet-scripts/RAD/Series
 savernet-scripts/TOPAS/Series
 savernet-scripts/bash/Series
 
+# vscode workspace
+savernet-scripts/.vscode
+
