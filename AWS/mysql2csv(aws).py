@@ -13,13 +13,13 @@ import mysql.connector as connection
 warnings.filterwarnings('ignore')
 
 #Global vars
-fromYear = 2017
-toYear = 2023 
+fromYear = 2010
+toYear = 2024 
 
 #DB config
 config = {
   'user': 'root',
-  'password': 'secret',
+  'password': '',
   'host': '127.0.0.1',
   'database': 'mtrackreport',
   'raise_on_warnings': True
@@ -75,8 +75,8 @@ def setup():
 
     print("Location selected: " + location)
     
-    fromYear = int(input("From year (2017): ") or "2017") 
-    toYear = int(input("To year (2023): ") or "2023")
+    fromYear = int(input("From year (2010): ") or "2010") 
+    toYear = int(input("To year (2024): ") or "2024")
     return  location.strip('\n')
   
 

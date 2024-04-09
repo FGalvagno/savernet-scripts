@@ -135,13 +135,11 @@ def readCSV(location):
     num_columns=["Total Particles", "PM10 particles", "PM2.5 particles", "PM1 particles"]
     df[num_columns] = df[num_columns].replace({',':'.'}, regex=True)
 
-    df[num_columns] = df[num_columns].apply(pd.to_numeric)
+
+    df[num_columns] = df[num_columns].apply(pd.to_numeric, errors= 'coerce')
   
-    df = df.drop(df[(df['Total Particles'] == 0) & 
-               (df['PM10 particles'] == 0) &
-               (df['PM2.5 particles'] == 0) &
-               (df['PM1 particles'] == 0)].index)
-    
+    df= df[(df[num_columns] != 0).all(axis=1)]
+    df = df.drop_duplicates(subset=['TimeStamp'])
     #df = (df[df['File Name'] == 'T1652a']) for AEP only
     df = df.drop(['File Name'], axis=1)
     print(df.head())
