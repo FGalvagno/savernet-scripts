@@ -28,5 +28,18 @@ Extraen datos del tiempo. Hay dos orígenes de datos:
 - En un servidor MYSQL como consulta
 - Datalogger Campbell CRxxxx, en un archivo en formato *.dat*
 
+# Renombrar archivos
+```python
+import glob
+import os
+location = ""
 
+samples = glob.glob('./datos/**/**/*.csv')
+for path in samples:
+    src = path[0:16]
+    dst = "./export" + path[1:16]
+    new_filename = dst + location + '_' + 'PIRA-UVA-UVB' + '_' + path[-14:]
+    os.renames(path, new_filename)
+    print(path)
+```
 
