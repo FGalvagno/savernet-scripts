@@ -81,14 +81,19 @@ def readPX(location):
 
     # read all .db files on samples folder and write content to samples.csv
     for name in samples:
-        pxData = Table(name)
-        print(name)
-        for row in pxData:
-            data= [row['TimeStamp'].strftime("%m/%d/%Y, %H:%M:%S"), row['Total Particles'], row['PM10 particles'], row['PM2.5 particles'],row['PM1 particles']]
-            if(data != ['01/01/1900, 00:00:00','####0.0','####0.0','###0.00','###0.00'] and data != ['12/31/1899, 00:00:00','ug/m^3','ug/m^3','ug/m^3','ug/m^3']):
-                data.append(name[24:30])
-                writer.writerow(data)
-        pxData.close()  #closes the px .DB file
+        try:
+            pxData = Table(name)
+            print(name)
+            for row in pxData:
+                data= [row['TimeStamp'].strftime("%m/%d/%Y, %H:%M:%S"), row['Total Particles'], row['PM10 particles'], row['PM2.5 particles'],row['PM1 particles']]
+                if(data != ['01/01/1900, 00:00:00','####0.0','####0.0','###0.00','###0.00'] and data != ['12/31/1899, 00:00:00','ug/m^3','ug/m^3','ug/m^3','ug/m^3']):
+                    data.append(name[24:30])
+                    writer.writerow(data)
+            pxData.close()  #closes the px .DB file
+        except KeyError:
+            log = open('log', 'a')
+            print('Error reading ' + name, file = log)
+            log.close()
     file.close()    #closes the csv file
 
     print("Done")
