@@ -19,7 +19,7 @@ A su vez, existe una carpeta extra llamada bash que contiene otras utilidades.
 - Descargar repo y descomprimirlo
 - Dentro de la carpeta del repositorio, abrir carpeta RAD
 - Crear carpeta que se llame Series dentro de la carpeta RAD
-- Colocar los datos crudos en la carpeta Series
+- Colocar solo los datos crudos (*.dat *backup.dat) en la carpeta Series
 - Ir a la carpeta raiz savernet-scripts-main
 - Abrir terminal en la carpeta raiz
 - python RAD/dat2csv-rad.py
