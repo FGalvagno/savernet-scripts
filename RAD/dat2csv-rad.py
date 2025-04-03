@@ -66,20 +66,23 @@ def split(location, file):
     df['TS'] = pd.to_datetime(df['TS'], format='mixed')
 
     for i in set(df['TS'].dt.date):
-         # check for folders
-        if not os.path.exists('export/RAD/' + i.strftime('%Y')):  
-            os.mkdir('export/RAD/' + i.strftime('%Y'))  
-        if not os.path.exists('export/RAD/' + i.strftime('%Y/%m')):  
-            os.mkdir('export/RAD/' + i.strftime('%Y/%m'))  
+        # check for folders
+        if type(i) is pd._libs.tslibs.nattype.NaTType:
+            print("NAT")
+        else:
+            if not os.path.exists('export/RAD/' + i.strftime('%Y')):  
+                os.mkdir('export/RAD/' + i.strftime('%Y'))  
+            if not os.path.exists('export/RAD/' + i.strftime('%Y/%m')):  
+                os.mkdir('export/RAD/' + i.strftime('%Y/%m'))  
         
-        f = open(f"export/RAD/{i.strftime('%Y/%m/'+ location +'-%Y-%m-%d')}.csv", "w")
-        f.writelines(head)
-        f.close()
-        data = df[(df['TS'].dt.date >= i) & (df['TS'].dt.date < i+timedelta(days=1))]
+            f = open(f"export/RAD/{i.strftime('%Y/%m/'+ location +'-%Y-%m-%d')}.csv", "w")
+            f.writelines(head)
+            f.close()
+            data = df[(df['TS'].dt.date >= i) & (df['TS'].dt.date < i+timedelta(days=1))]
         
 
         
-        data.to_csv(f"export/RAD/{i.strftime('/%Y/%m/'+ location +'-%Y-%m-%d')}.csv", index=False, mode= 'a', header=False)
+            data.to_csv(f"export/RAD/{i.strftime('/%Y/%m/'+ location +'-%Y-%m-%d')}.csv", index=False, mode= 'a', header=False)
 
 location = setup()
 
