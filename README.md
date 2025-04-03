@@ -15,6 +15,17 @@ Los scripts están divididos según el instrumental que representan. Existen scr
 
 A su vez, existe una carpeta extra llamada bash que contiene otras utilidades.
 
+## AWS
+- Descargar repo
+- Abrir carpeta RAD
+- Crear carpeta que se llame Series dentro de la carpeta RAD
+- Colocar los datos crudos en la carpeta Series
+- Ir a la carpeta raiz savernet-scripts-main
+- Abrir terminal en la carpeta raiz
+- python RAD/dat2csv-rad.py
+- Colocar número de estación y presionar enter
+- Los datos de salida estan en la carpeta export
+
 # Descripción 
 
 ## RAD
